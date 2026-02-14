@@ -1,0 +1,42 @@
+button {
+  background: #2563EB;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #94A3B8;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #F1F5F9;
+  color: #1E293B;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: #8B5CF6;
+  color: white;
+}
+
+.navbar a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.navbar a.active {
+  text-decoration: underline;
+}
+
+.page {
+  padding: 32px;
+}
