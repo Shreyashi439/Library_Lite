@@ -1,26 +1,28 @@
-Library Lite 📚
+Library Lite
 
 Library Lite is a small full-stack web application for managing books, members, lending, waitlists, and reports.
 The project focuses on correctness, clean architecture, and core library workflows.
 
-Project Structure
+📂 Project Structure
 library-lite/
 ├── backend/
 ├── frontend/
 └── README.md
 
-Features
-1. Books
+✨ Features
+📘 Books
 
 Add books with title, author, and tags
 
-Prevent duplicate book titles
+Prevent duplicate book titles (case-insensitive)
 
-Search books by title (case-insensitive)
+Search books by title, author, tags
 
 View book availability status
 
-2. Lending & Waitlist
+Edit book details (author and tags) using EditBookModal
+
+📖 Lending & Waitlist
 
 Lend available books to members
 
@@ -28,7 +30,7 @@ If a book is already loaned, members are added to a waitlist
 
 FIFO (first-in-first-out) waitlist handling
 
-3. Returns
+🔄 Returns
 
 Return books from the Members page
 
@@ -36,25 +38,27 @@ Automatically loan the book to the next waitlisted member (if any)
 
 If no waitlist exists, the book becomes available
 
-4. Members
+👤 Members
 
 Add and delete members
 
 View active loans per member
 
-5. Reports
+Edit member details (first name and last name)
+
+📊 Reports
 
 Overdue report sorted by days overdue
 
 Top books report sorted by checkout count (with title as tie-breaker)
 
-6. Populate by Genre (Optional / Bonus)
+🤖 Populate by Genre (Optional / Bonus)
 
 Populate the library using an LLM (Google Gemini)
 
 Enter a genre and automatically add books for that genre
 
-Tech Stack
+🛠 Tech Stack
 
 Frontend: React + Vite
 
@@ -126,7 +130,7 @@ create table waitlist (
 create unique index unique_waitlist_entry
 on waitlist (book_id, member_id);
 
-🔎 Schema Overview
+Schema Overview
 📘 Books
 
 Stores all books in the catalog
@@ -137,9 +141,13 @@ Tracks availability status
 
 Tracks total checkout count
 
+Supports updating author and tags
+
 👤 Members
 
 Stores registered library members
+
+Supports updating member details
 
 📖 Loans
 
@@ -155,7 +163,7 @@ Maintains queue order per book
 
 Prevents duplicate member entries per book
 
-How to Run the Project
+▶️ How to Run the Project
 Backend Setup
 cd backend
 npm install
@@ -172,8 +180,8 @@ GEMINI_API_KEY=your_gemini_api_key
 Frontend Setup
 cd frontend
 npm install
-npm install axios 
-npm install react-router-dom 
+npm install axios
+npm install react-router-dom
 npm run dev
 
 
@@ -181,7 +189,7 @@ Open the app in your browser:
 
 http://localhost:5173
 
-Key Design Decisions
+🧠 Key Design Decisions
 
 Return action is handled on the Members page for cleaner UX
 
@@ -191,7 +199,11 @@ Auto-loan happens only when a book is returned
 
 Frontend remains thin and declarative
 
-Assumptions
+Book editing is implemented using EditBookModal
+
+Member editing is implemented using modal-based UI for better UX
+
+⚠️ Assumptions
 
 A member can have multiple active loans
 
@@ -200,4 +212,5 @@ Waitlist order is FIFO
 Duplicate book titles are rejected
 
 Unit tests were not implemented as they were optional per the assignment requirements
+
 
