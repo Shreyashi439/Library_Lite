@@ -159,6 +159,7 @@ How to Run the Project
 Backend Setup
 cd backend
 npm install
+npm install @google/generative-ai
 npm run dev
 
 
@@ -171,6 +172,8 @@ GEMINI_API_KEY=your_gemini_api_key
 Frontend Setup
 cd frontend
 npm install
+npm install axios 
+npm install react-router-dom 
 npm run dev
 
 
@@ -197,3 +200,4 @@ Waitlist order is FIFO
 Duplicate book titles are rejected
 
 Unit tests were not implemented as they were optional per the assignment requirements
+
