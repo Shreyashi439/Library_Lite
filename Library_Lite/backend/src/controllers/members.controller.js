@@ -73,3 +73,33 @@ exports.deleteMember = async (req, res) => {
 
   res.json({ message: "Member deleted successfully" });
 };
+
+/**
+ * UPDATE MEMBER
+ */
+exports.updateMember = async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name } = req.body;
+
+  if (!first_name || !last_name) {
+    return res.status(400).json({
+      message: "First and last name required"
+    });
+  }
+
+  const { data, error } = await supabase
+    .from("members")
+    .update({ first_name, last_name })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    return res.status(500).json({
+      message: "Failed to update member",
+      error
+    });
+  }
+
+  res.json(data);
+};
