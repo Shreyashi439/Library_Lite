@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { getBooks, createBook } from "../api/books.api";
 import { getMembers } from "../api/members.api";
 import LendBookModal from "../components/LendBookModal";
+import EditBookModal from "../components/EditBookModal";
 
 function Catalog() {
   const [books, setBooks] = useState([]);
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedBook, setSelectedBook] = useState(null);
+  const [editingBook, setEditingBook] = useState(null);
   const [form, setForm] = useState({
     title: "",
     author: "",
@@ -118,7 +120,7 @@ function Catalog() {
               </strong>
             </p>
 
-            {/* Always visible */}
+            {/* Lend / Waitlist */}
             <button
               onClick={() => setSelectedBook(book)}
               style={{
@@ -137,6 +139,22 @@ function Catalog() {
                 ? "Lend"
                 : "Join Waitlist"}
             </button>
+
+            {/* Edit Button */}
+            <button
+              onClick={() => setEditingBook(book)}
+              style={{
+                marginLeft: 10,
+                background: "#2563EB",
+                color: "white",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: 4,
+                cursor: "pointer",
+              }}
+            >
+              Edit
+            </button>
           </div>
         ))}
       </div>
@@ -145,11 +163,23 @@ function Catalog() {
       {selectedBook && (
         <LendBookModal
           book={selectedBook}
-          members={members}   // 👈 important
+          members={members}
           onClose={() => setSelectedBook(null)}
           onSuccess={() => {
             fetchData();
             setSelectedBook(null);
+          }}
+        />
+      )}
+
+      {/* ✅ Edit Modal Wired Properly */}
+      {editingBook && (
+        <EditBookModal
+          book={editingBook}
+          onClose={() => setEditingBook(null)}
+          onSuccess={() => {
+            fetchData();
+            setEditingBook(null);
           }}
         />
       )}
