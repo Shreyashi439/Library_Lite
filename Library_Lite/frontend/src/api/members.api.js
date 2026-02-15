@@ -8,5 +8,9 @@ export const getMembers = () =>
 export const createMember = (data) =>
   axios.post(API, data);
 
+export const updateMember = (id, data) =>
+  axios.put(`${API}/${id}`, data);
+
+
 export const deleteMember = (id) =>
   axios.delete(`${API}/${id}`);
