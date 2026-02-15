@@ -8,6 +8,8 @@ router.post("/", membersController.createMember);
 // Get all members + active loans
 router.get("/", membersController.getMembers);
 
+router.put("/:id", membersController.updateMember);
+
 // Delete member
 router.delete("/:id", membersController.deleteMember);
 
