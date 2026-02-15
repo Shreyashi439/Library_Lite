@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getMembers, createMember, deleteMember } from "../api/members.api";
 import { returnBook } from "../api/lending.api";
+import EditMemberModal from "../components/EditMemberModal";
 
 function Members() {
   const [members, setMembers] = useState([]);
+  const [editingMember, setEditingMember] = useState(null); // ✅ added
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -34,11 +36,12 @@ function Members() {
     await deleteMember(id);
     fetchMembers();
   };
+
   const handleReturn = async (loanId) => {
     try {
       const res = await returnBook({ loan_id: loanId });
       alert(res.data.message);
-      fetchMembers(); // refresh members list
+      fetchMembers();
     } catch (err) {
       alert("Error returning book");
     }
@@ -53,12 +56,18 @@ function Members() {
         <input
           placeholder="First Name"
           value={form.first_name}
-          onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, first_name: e.target.value })
+          }
+          required
         />
         <input
           placeholder="Last Name"
           value={form.last_name}
-          onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, last_name: e.target.value })
+          }
+          required
         />
         <button type="submit">Add Member</button>
       </form>
@@ -106,14 +115,39 @@ function Members() {
             </ul>
           )}
 
-          <button
-            style={{ marginTop: 10 }}
-            onClick={() => handleDelete(member.id)}
-          >
-            Delete Member
-          </button>
+          {/* Actions */}
+          <div style={{ marginTop: 10 }}>
+            <button
+              style={{ marginRight: 10 }}
+              disabled={member.active_loans.length > 0}
+              title={
+                member.active_loans.length > 0
+                  ? "Cannot edit member with active loans"
+                  : ""
+              }
+              onClick={() => setEditingMember(member)}
+            >
+              Edit
+            </button>
+
+            <button onClick={() => handleDelete(member.id)}>
+              Delete Member
+            </button>
+          </div>
         </div>
       ))}
+
+      {/* ✅ Edit Member Modal */}
+      {editingMember && (
+        <EditMemberModal
+          member={editingMember}
+          onClose={() => setEditingMember(null)}
+          onSuccess={() => {
+            fetchMembers();
+            setEditingMember(null);
+          }}
+        />
+      )}
     </div>
   );
 }
